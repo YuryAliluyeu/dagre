@@ -3601,26 +3601,26 @@ Graph.prototype.nodes = function() {
 };
 
 Graph.prototype.sources = function() {
-  return _.filter(this.nodes(), function(v) {
+  return _.filter.call(this, this.nodes(), function(v) {
     return _.isEmpty(this._in[v]);
-  }, this);
+  });
 };
 
 Graph.prototype.sinks = function() {
-  return _.filter(this.nodes(), function(v) {
+  return _.filter.call(this, this.nodes(), function(v) {
     return _.isEmpty(this._out[v]);
-  }, this);
+  });
 };
 
 Graph.prototype.setNodes = function(vs, value) {
   var args = arguments;
-  _.each(vs, function(v) {
+  _.each.call(this, vs, function(v) {
     if (args.length > 1) {
       this.setNode(v, value);
     } else {
       this.setNode(v);
     }
-  }, this);
+  });
   return this;
 };
 
@@ -3662,9 +3662,9 @@ Graph.prototype.removeNode =  function(v) {
     if (this._isCompound) {
       this._removeFromParentsChildList(v);
       delete this._parent[v];
-      _.each(this.children(v), function(child) {
+      _.each.call(this, this.children(v), function(child) {
         this.setParent(child);
-      }, this);
+      });
       delete this._children[v];
     }
     _.each(_.keys(this._in[v]), removeEdge);
